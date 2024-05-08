@@ -1,4 +1,4 @@
-package bloodmanagementsystem;
+package blood_management_system_final;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,13 +11,49 @@ import javax.swing.table.DefaultTableModel;
 
 public class Donor extends javax.swing.JFrame {
 
+    Object ClearButton;
+    private ModelClass model = new ModelClass();
+    
+
+   
+
     public Donor() {
         initComponents();
-        loadDataFromFile(); // Data is Loaded from TEXT file
+        jtable.setModel(model.loadDataFromFile()); 
     }
+    
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        
+        String name = tfName.getText();
+        String email = tfEmail.getText();
+        String phone = tfPhone.getText();
+        String blood = tfBlood.getText();
+        String address = tfAddress.getText();
+        String data = name + "," + email +" ,"+ phone+" ," +blood+","+address; //Storing all variable in one variable
+         
+        
+       
+        if(name.isEmpty() || email.isEmpty() ||blood.isEmpty()|| phone.isEmpty() ||address.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this,"Please enter all fields","Try again",JOptionPane.ERROR_MESSAGE);
+            
+        }
+        else
+        {
+            DefaultTableModel model = (DefaultTableModel) jtable.getModel();
+            model.addRow(new Object[]{name,email,phone,blood,address});
+            
+            clearFields();
+        }
+        
+       this.model.saveToFile(data);
+            
+        
+    }              
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
@@ -231,91 +267,44 @@ public class Donor extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
- private void Clear() {
-                
+    }// </editor-fold>                        
+ private void clearFields() {
+        tfName.setText("");
+        tfEmail.setText("");
+        tfPhone.setText("");
+        tfBlood.setText("");
+        tfAddress.setText("");
+    }
+    
+    private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {                                            
+       
                 tfName.setText("");
                 tfEmail.setText("");
                 tfPhone.setText("");
                 tfBlood.setText("");
                 tfAddress.setText("");
-          
-    }
-    private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
-       Clear();
-    }//GEN-LAST:event_ClearButtonActionPerformed
+    }                                           
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
        
-    }//GEN-LAST:event_formWindowOpened
+    }                                 
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {                                  
    
-    }//GEN-LAST:event_formWindowClosed
+    }                                 
 
-    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        // TODO add your handling code here:
-        
-        String name = tfName.getText();
-        String email = tfEmail.getText();
-        String phone = tfPhone.getText();
-        String blood = tfBlood.getText();
-        String address = tfAddress.getText();
-        String data = name + "," + email +" ,"+ phone+" ," +blood+","+address; //Storing all variable in one variable
-         
-        
-       
-        if(name.isEmpty() || email.isEmpty() ||blood.isEmpty()|| phone.isEmpty() ||address.isEmpty())
-        {
-            JOptionPane.showMessageDialog(this,"Please enter all fields","Try again",JOptionPane.ERROR_MESSAGE);
-            
-        }
-        else
-        {
-            DefaultTableModel model = (DefaultTableModel) jtable.getModel();
-            model.addRow(new Object[]{name,email,phone,blood,address});
-            
-            Clear();  
-        }
-        
-        saveToFile(data);  
-        
-    }//GEN-LAST:event_AddButtonActionPerformed
+                                       
 
-    private void Back_to_Home_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_to_Home_ButtonActionPerformed
+    private void Back_to_Home_ButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
             Home h = new Home();
             h.setVisible(true);
             this.dispose();
-    }//GEN-LAST:event_Back_to_Home_ButtonActionPerformed
+    }                                                   
  
-    private void saveToFile(String data) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt", true))) {
-            writer.write(data + "\n");
-        } catch (IOException e) {
-            
-        }
-    }
-     private void loadDataFromFile() {
-        File file = new File("data.txt");
-        String line;
-         DefaultTableModel model = (DefaultTableModel) jtable.getModel();
+ public  void saveToFile(String data) {}
        
-
-        if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                
-                while ((line = reader.readLine()) != null) {
-                    
-                    String[] data = line.split(",");
-                    if (data.length == 5) {
-                        model.addRow(data);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    
+  protected void loadDataFromFile() {}
  
     
     public static void main(String args[]) {
@@ -328,14 +317,14 @@ public class Donor extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddButton;
+    // Variables declaration - do not modify                     
+    public javax.swing.JButton AddButton;
     private javax.swing.JButton Back_to_Home_Button;
-    private javax.swing.JTable jtable;
-    private javax.swing.JTextField tfAddress;
-    private javax.swing.JTextField tfBlood;
-    private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfName;
-    private javax.swing.JTextField tfPhone;
-    // End of variables declaration//GEN-END:variables
+    public javax.swing.JTable jtable;
+    public javax.swing.JTextField tfAddress;
+    public javax.swing.JTextField tfBlood;
+    public javax.swing.JTextField tfEmail;
+    public javax.swing.JTextField tfName;
+    public javax.swing.JTextField tfPhone;
+    // End of variables declaration                   
 }

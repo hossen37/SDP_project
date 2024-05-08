@@ -1,4 +1,6 @@
-package bloodmanagementsystem;
+
+package blood_management_system_final;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,15 +9,24 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class Search extends javax.swing.JFrame {
 
-   
+public class Search extends javax.swing.JFrame {
+    Controller controller;
+    ModelClass model = new ModelClass();
     public Search() {
         initComponents();
-        loadDataFromFile();
+       jtable.setModel(model.loadDataFromFile()); 
+       controller = new Controller(this);
+    }
+     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {
+        controller.filterTable(jTextField1.getText());
     }
 
-    
+    // Add a getter for the jTable
+    public javax.swing.JTable getJTable() {
+        return jtable;
+    }
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -118,47 +129,23 @@ public class Search extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-     
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        
+    }
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-       
-        DefaultTableModel ob =(DefaultTableModel) jtable.getModel();
-        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        jtable.setRowSorter(obj);
-        obj.setRowFilter(RowFilter.regexFilter(jTextField1.getText()));
-
-    }//GEN-LAST:event_jTextField1KeyReleased
+   
 
     private void Back_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_homeActionPerformed
    Home h = new Home();
    h.setVisible(true);
    this.dispose();
     }//GEN-LAST:event_Back_homeActionPerformed
-  //Data Loaded from text file 
-     private void loadDataFromFile() {
-        File file = new File("data.txt");
-         DefaultTableModel model = (DefaultTableModel) jtable.getModel();
-       
 
-        if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] data = line.split(",");
-                    if (data.length == 5) {
-                        model.addRow(data);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
- 
-    
+   
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
-       
+        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -181,7 +168,7 @@ public class Search extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-       
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Search().setVisible(true);
